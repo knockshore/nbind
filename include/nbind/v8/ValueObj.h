@@ -112,9 +112,11 @@ template <> struct BindingType<v8::Local<v8::Object>> {
 template <typename ArgType>
 inline ArgType BindingType<ValueType<ArgType>>::fromWireType(WireType arg) noexcept(false) {
 	auto target = Nan::To<v8::Object>(arg).ToLocalChecked();
-	auto fromJS = target->Get(Nan::New<v8::String>("fromJS").ToLocalChecked());
+	auto fromJS = target->Get(Nan::GetCurrentContext(), Nan::New<v8::String>("fromJS").ToLocalChecked());
 
-	if(!fromJS->IsFunction()) throw(std::runtime_error("Type mismatch"));
+	auto fromJS2 = fromJS.ToLocalChecked();
+
+	if(!fromJS2->IsFunction()) throw(std::runtime_error("Type mismatch"));
 
 	BindClassBase &bindClass = BindClass<ArgType>::getInstance();
 
@@ -125,7 +127,7 @@ inline ArgType BindingType<ValueType<ArgType>>::fromWireType(WireType arg) noexc
 	Nan::SetInternalFieldPointer(instance, 0, &storage);
 
 	// TODO: cache this for a speedup.
-	cbFunction converter(v8::Local<v8::Function>::Cast(fromJS));
+	cbFunction converter(v8::Local<v8::Function>::Cast(fromJS2));
 	converter.callMethod<void>(target, instance);
 
 	const char *message = Status::getError();

@@ -53,6 +53,7 @@ struct hash<nbind::TypeFlags> {
 #include <node.h>
 #include <node_buffer.h>
 #include <nan.h>
+#include <stdexcept>
 
 namespace nbind {
 
@@ -136,7 +137,7 @@ protected:
 		// create a new wrapper again.
 
 		ref->SetWeak(ref, weakCallback, Nan::WeakCallbackType::kParameter);
-		ref->MarkIndependent();
+//		ref->MarkIndependent();
 	}
 
 	void removeInstance() {

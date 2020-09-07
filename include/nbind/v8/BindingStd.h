@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <stdexcept>
 
 namespace nbind {
 
@@ -55,7 +56,7 @@ struct BindingType<std::array<ArgType, size>> {
 		v8::Local<v8::Array> arr = Nan::New<v8::Array>(size);
 
 		for(uint32_t num = 0; num < size; ++num) {
-			arr->Set(num, convertToWire(std::forward<ArgType>(arg[num])));
+			arr->Set(Nan::GetCurrentContext(), num, convertToWire(std::forward<ArgType>(arg[num])));
 		}
 
 		return(arr);
@@ -106,7 +107,7 @@ struct BindingType<std::vector<ArgType>> {
 		v8::Local<v8::Array> arr = Nan::New<v8::Array>(count);
 
 		for(uint32_t num = 0; num < count; ++num) {
-			arr->Set(num, convertToWire(std::forward<ArgType>(arg[num])));
+			arr->Set(Nan::GetCurrentContext(), num, convertToWire(std::forward<ArgType>(arg[num])));
 		}
 
 		return(arr);

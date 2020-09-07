@@ -313,7 +313,7 @@ function initNode<ExportType extends DefaultExportType>(
 	callback: InitCallback<ExportType>
 ) {
 	// Load the compiled addon.
-	const lib = require(binding.binary.path);
+	const lib: any = require(binding.binary.path);
 
 	if(!lib || typeof(lib) != 'object') {
 		callback(new Error('Error loading addon'));
@@ -326,7 +326,7 @@ function initNode<ExportType extends DefaultExportType>(
 	binding.toggleLightGC = function(enable: boolean) {}; // tslint:disable-line:no-empty
 
 	Object.keys(lib).forEach(function(key: string) {
-		binding.lib[key] = lib[key];
+		(binding as any).lib[key] = lib[key];
 	});
 
 	callback(null, binding);

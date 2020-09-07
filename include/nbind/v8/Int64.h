@@ -12,9 +12,11 @@ static ArgType int64FromWire(WireType arg, void(init)(const Nan::FunctionCallbac
 	Nan::HandleScope();
 
 	auto target = Nan::To<v8::Object>(arg).ToLocalChecked();
-	auto fromJS = target->Get(Nan::New<v8::String>("fromJS").ToLocalChecked());
+	auto fromJS = target->Get(Nan::GetCurrentContext(), Nan::New<v8::String>("fromJS").ToLocalChecked());
 
-	if(!fromJS->IsFunction()) throw(std::runtime_error("Type mismatch"));
+	auto fromJS2 = fromJS.ToLocalChecked();
+
+	if(!fromJS2->IsFunction()) throw(std::runtime_error("Type mismatch"));
 
 	ArgType storage = 0;
 
@@ -27,7 +29,7 @@ static ArgType int64FromWire(WireType arg, void(init)(const Nan::FunctionCallbac
 	Nan::SetInternalFieldPointer(instance, 0, &storage);
 
 	// TODO: cache this for a speedup.
-	cbFunction converter(v8::Local<v8::Function>::Cast(fromJS));
+	cbFunction converter(v8::Local<v8::Function>::Cast(fromJS2));
 	converter.callMethod<void>(target, instance);
 
 	return(storage);
