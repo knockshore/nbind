@@ -1,5 +1,5 @@
 {
-  "name": "nbind",
+  "name": "@w8coffee/nbind",
   "version": "0.3.15",
   "description": "Magical headers that make your C++ library accessible from JavaScript",
   "main": "dist/nbind.js",
@@ -29,12 +29,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/charto/nbind.git"
+    "url": "git+https://github.com/knockshore/nbind.git"
   },
   "bugs": {
-    "url": "https://github.com/charto/nbind/issues"
+    "url": "https://github.com/knockshore/nbind/issues"
   },
-  "homepage": "https://github.com/charto/nbind#readme",
+  "homepage": "https://github.com/knockshore/nbind#readme",
   "keywords": [
     "asm.js",
     "bindings",
@@ -65,5 +65,9 @@
     "tap": "^10.7.3",
     "tslint": "^5.9.1",
     "typescript": "^3.4.3"
+  },
+  "directories": {
+    "doc": "doc",
+    "test": "test"
   }
 }
