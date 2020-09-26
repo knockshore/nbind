@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "@w8coffee/nbind",
   "version": "0.3.16",
   "description": "Magical headers that make your C++ library accessible from JavaScript",
